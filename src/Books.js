@@ -9,6 +9,7 @@ class Books extends Component {
     super(props);
     this.state = {
       books: [],
+      favorites: [],
       searchField: "",
       sort: "",
     };
@@ -52,7 +53,28 @@ class Books extends Component {
     return cleanedData;
   };
 
+  toggleFavorite = (title) => {
+    const { books, favorites } = this.state;
+    const bookIndex = books.findIndex(
+      (book) => book.volumeInfo.title === title
+    );
+    const favoriteIndex = favorites.findIndex(
+      (fav) => fav.volumeInfo.title === title
+    );
+
+    if (favoriteIndex !== -1) {
+      const updatedFavorites = [...favorites];
+      updatedFavorites.splice(favoriteIndex, 1);
+      this.setState({ favorites: updatedFavorites });
+    } else {
+      const updatedFavorites = [...favorites, books[bookIndex]];
+      this.setState({ favorites: updatedFavorites });
+    }
+  };
+
   render() {
+    const { books, favorites, sort } = this.state;
+
     const sortedBooks = this.state.books.sort((a, b) => {
       if (this.state.sort === "Newest") {
         return (
@@ -73,7 +95,11 @@ class Books extends Component {
           handleSearch={this.handleSearch}
           handleSort={this.handleSort}
         />
-        <Library books={sortedBooks} />
+        <Library
+          books={sortedBooks}
+          toggleFavorite={this.toggleFavorite}
+          favorites={favorites}
+        />
       </div>
     );
   }

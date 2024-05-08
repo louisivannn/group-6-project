@@ -20,6 +20,9 @@ const BookCard = (props) => {
             : props.published.substring(0, 4)}
         </p>
         <p>Pages: {props.pages}</p>
+        <button onClick={() => props.toggleFavorite(props.title)}>
+          {props.isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+        </button>
       </div>
     </div>
   );
