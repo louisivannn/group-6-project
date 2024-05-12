@@ -1,8 +1,15 @@
-import React from "react";
+// Library.js
+import React, { useState } from "react";
 import BookCard from "./BookCard";
 import Favorites from "./Favorites";
 
 const Library = ({ books, toggleFavorite, favorites }) => {
+  const [currentPageByTitle, setCurrentPageByTitle] = useState({});
+
+  const saveCurrentPage = (title, page) => {
+    setCurrentPageByTitle({ ...currentPageByTitle, [title]: page });
+  };
+
   return (
     <div>
       <div className="list">
@@ -21,12 +28,19 @@ const Library = ({ books, toggleFavorite, favorites }) => {
                 isFavorite={favorites.some(
                   (fav) => fav.volumeInfo.title === book.volumeInfo.title
                 )}
+                currentPage={currentPageByTitle[book.volumeInfo.title] || 1}
+                saveCurrentPage={saveCurrentPage}
               />
             </div>
           );
         })}
       </div>
-      <Favorites favorites={favorites} toggleFavorite={toggleFavorite} />
+      <Favorites
+        favorites={favorites}
+        toggleFavorite={toggleFavorite}
+        saveCurrentPage={saveCurrentPage}
+        currentPageByTitle={currentPageByTitle}
+      />
     </div>
   );
 };

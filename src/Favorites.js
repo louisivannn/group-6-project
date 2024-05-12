@@ -1,7 +1,12 @@
 import React from "react";
 import BookCard from "./BookCard";
 
-const Favorites = ({ favorites, toggleFavorite }) => {
+const Favorites = ({
+  favorites,
+  toggleFavorite,
+  saveCurrentPage,
+  currentPageByTitle,
+}) => {
   return (
     <div className="favorites">
       <h2>Your Favorites</h2>
@@ -14,8 +19,12 @@ const Favorites = ({ favorites, toggleFavorite }) => {
               author={book.volumeInfo.authors}
               published={book.volumeInfo.publishedDate}
               pages={book.volumeInfo.pageCount}
+              description={book.volumeInfo.description}
+              genre={book.volumeInfo.categories}
               toggleFavorite={toggleFavorite}
               isFavorite={true}
+              currentPage={currentPageByTitle[book.volumeInfo.title] || 1}
+              saveCurrentPage={saveCurrentPage}
             />
           </div>
         ))}

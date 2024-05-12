@@ -1,11 +1,23 @@
-import React, { Component, useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const BookCard = (props) => {
   const [showDetails, setShowDetails] = useState(false);
+  const [currentPage, setCurrentPage] = useState(props.currentPage || 1);
 
   const toggleDetails = () => {
     setShowDetails(!showDetails);
   };
+
+  const handlePageChange = (e) => {
+    const page = parseInt(e.target.value);
+    setCurrentPage(page);
+
+    props.saveCurrentPage(props.title, page);
+  };
+
+  useEffect(() => {
+    setCurrentPage(props.currentPage || 1);
+  }, [props.currentPage]);
 
   return (
     <div className="card-container">
@@ -43,9 +55,17 @@ const BookCard = (props) => {
             </p>
           </>
         )}
-
         <p>Pages: {props.pages}</p>
-
+        <label>
+          Current Page:
+          <input
+            type="number"
+            min="1"
+            max={props.pages}
+            value={currentPage}
+            onChange={handlePageChange}
+          />
+        </label>
         <button onClick={toggleDetails}>
           {showDetails ? "Show Less Details" : "Read More Details"}
         </button>
