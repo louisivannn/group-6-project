@@ -31,6 +31,10 @@ const Library = ({ books, toggleFavorite, favorites }) => {
         const updatedCollections = [...collections];
         updatedCollections[index].books.push(book.volumeInfo);
         setCollections(updatedCollections);
+        setCurrentPageByTitle({
+          ...currentPageByTitle,
+          [book.volumeInfo.title]: book.currentPage || 1,
+        });
       }
     }
   };
@@ -117,6 +121,7 @@ const Library = ({ books, toggleFavorite, favorites }) => {
               deleteBook={(book) => deleteBookFromCollection(index, book)}
               updateName={(newName) => updateCollectionName(index, newName)}
               saveCurrentPage={saveCurrentPage}
+              currentPageByTitle={currentPageByTitle}
             />
             <button onClick={() => deleteCollection(index)}>Delete</button>
           </div>

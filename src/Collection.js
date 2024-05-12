@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BookInCollection from "./BookInCollection";
 
 const Collection = ({
@@ -12,7 +12,6 @@ const Collection = ({
   const [editMode, setEditMode] = useState(false);
   const [newName, setNewName] = useState(name);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [currentPage, setCurrentPage] = useState(currentPageByTitle || {});
 
   const handleNameChange = (e) => {
     setNewName(e.target.value);
@@ -27,10 +26,9 @@ const Collection = ({
     setIsExpanded(!isExpanded);
   };
 
-  const handlePageChange = (title, page) => {
-    setCurrentPage({ ...currentPage, [title]: page });
-    saveCurrentPage(title, page);
-  };
+  useEffect(() => {
+    setNewName(name);
+  }, [name]);
 
   return (
     <div>
@@ -61,8 +59,8 @@ const Collection = ({
                 published={book.publishedDate}
                 pages={book.pageCount}
                 deleteBook={deleteBook}
-                currentPage={currentPage[book.title] || 1}
-                handlePageChange={handlePageChange}
+                currentPage={currentPageByTitle[book.title] || 1}
+                handlePageChange={(title, page) => saveCurrentPage(title, page)}
               />
             </div>
           ))}

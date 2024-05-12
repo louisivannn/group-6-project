@@ -10,16 +10,19 @@ class Books extends Component {
     this.state = {
       books: [],
       favorites: [],
+      collections: [],
       searchField: "",
       sort: "",
+      currentPageByTitle: {}, // Move currentPageByTitle to Books component
     };
   }
 
   searchBook = (e) => {
     e.preventDefault();
+    const maxResults = 40;
     request
       .get("https://www.googleapis.com/books/v1/volumes")
-      .query({ q: this.state.searchField })
+      .query({ q: this.state.searchField, maxResults })
       .then((data) => {
         console.log(data);
         const cleanData = this.cleanData(data);
@@ -74,8 +77,18 @@ class Books extends Component {
     }
   };
 
+  saveCurrentPage = (title, page) => {
+    this.setState((prevState) => ({
+      currentPageByTitle: {
+        ...prevState.currentPageByTitle,
+        [title]: page,
+      },
+    }));
+  };
+
   render() {
-    const { books, favorites, sort } = this.state;
+    const { books, favorites, sort, collections, currentPageByTitle } =
+      this.state;
 
     const sortedBooks = this.state.books.sort((a, b) => {
       if (this.state.sort === "Newest") {
@@ -101,6 +114,9 @@ class Books extends Component {
           books={sortedBooks}
           toggleFavorite={this.toggleFavorite}
           favorites={favorites}
+          collections={collections}
+          saveCurrentPage={this.saveCurrentPage}
+          currentPageByTitle={currentPageByTitle} // Pass currentPageByTitle as prop
         />
       </div>
     );

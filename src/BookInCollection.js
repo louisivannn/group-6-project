@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const BookInCollection = (props) => {
-  const [currentPage, setCurrentPage] = useState(props.currentPage);
+  const [currentPage, setCurrentPage] = useState(props.currentPage || 1);
 
   const handlePageChange = (e) => {
     const page = parseInt(e.target.value);
     setCurrentPage(page);
-    props.handlePageChange(props.title, page);
+
+    props.saveCurrentPage(props.title, page);
   };
+
+  useEffect(() => {
+    setCurrentPage(props.currentPage || 1);
+  }, [props.currentPage]);
 
   return (
     <div className="card-container">
