@@ -45,6 +45,8 @@ class Books extends Component {
         book.volumeInfo["imageLinks"] = { thumbnail: "" };
       } else if (book.volumeInfo.hasOwnProperty("authors")) {
         book.volumeInfo.authors = book.volumeInfo.authors.join(", ");
+      } else if (book.volumeInfo.hasOwnProperty("categories")) {
+        book.volumeInfo.categories = book.volumeInfo.categories.join(", ");
       }
 
       return book;

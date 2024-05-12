@@ -16,6 +16,7 @@ const Library = ({ books, toggleFavorite, favorites }) => {
                 published={book.volumeInfo.publishedDate}
                 pages={book.volumeInfo.pageCount}
                 description={book.volumeInfo.description}
+                genre={book.volumeInfo.categories}
                 toggleFavorite={toggleFavorite}
                 isFavorite={favorites.some(
                   (fav) => fav.volumeInfo.title === book.volumeInfo.title

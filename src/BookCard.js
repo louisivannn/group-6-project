@@ -20,6 +20,13 @@ const BookCard = (props) => {
             : props.published.substring(0, 4)}
         </p>
         <p>
+          {props.genre === undefined
+            ? ""
+            : props.genre === ""
+            ? ""
+            : "Genre(s): " + props.genre}
+        </p>
+        <p>
           {props.description === undefined
             ? "Description Not Available"
             : props.description === ""
