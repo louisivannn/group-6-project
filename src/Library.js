@@ -1,10 +1,10 @@
-// Library.js
 import React, { useState } from "react";
 import BookCard from "./BookCard";
 import Favorites from "./Favorites";
 
 const Library = ({ books, toggleFavorite, favorites }) => {
   const [currentPageByTitle, setCurrentPageByTitle] = useState({});
+  const [showFavorites, setShowFavorites] = useState(false);
 
   const saveCurrentPage = (title, page) => {
     setCurrentPageByTitle({ ...currentPageByTitle, [title]: page });
@@ -35,12 +35,17 @@ const Library = ({ books, toggleFavorite, favorites }) => {
           );
         })}
       </div>
-      <Favorites
-        favorites={favorites}
-        toggleFavorite={toggleFavorite}
-        saveCurrentPage={saveCurrentPage}
-        currentPageByTitle={currentPageByTitle}
-      />
+      {showFavorites && (
+        <Favorites
+          favorites={favorites}
+          toggleFavorite={toggleFavorite}
+          saveCurrentPage={saveCurrentPage}
+          currentPageByTitle={currentPageByTitle}
+        />
+      )}
+      <button onClick={() => setShowFavorites(!showFavorites)}>
+        {showFavorites ? "Hide Favorites" : "Show Favorites"}
+      </button>
     </div>
   );
 };
