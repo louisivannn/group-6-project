@@ -10,8 +10,11 @@ const BookCard = (props) => {
 
   const handlePageChange = (e) => {
     const page = parseInt(e.target.value);
+    if (page > props.pages) {
+      alert("Current page cannot be greater than total pages.");
+      return;
+    }
     setCurrentPage(page);
-
     props.saveCurrentPage(props.title, page);
   };
 

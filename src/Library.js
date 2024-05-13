@@ -14,6 +14,15 @@ const Library = ({ books, toggleFavorite, favorites }) => {
   };
 
   const createCollection = () => {
+    if (
+      collections.some((collection) => collection.name === newCollectionName)
+    ) {
+      alert(
+        "A collection with the same name already exists. Please choose a different name."
+      );
+      return;
+    }
+
     setCollections([...collections, { name: newCollectionName, books: [] }]);
     setNewCollectionName("");
   };
@@ -49,9 +58,16 @@ const Library = ({ books, toggleFavorite, favorites }) => {
   };
 
   const updateCollectionName = (index, newName) => {
-    const updatedCollections = [...collections];
-    updatedCollections[index].name = newName;
-    setCollections(updatedCollections);
+    if (
+      collections.some(
+        (collection, i) => i !== index && collection.name === newName
+      )
+    ) {
+      alert(
+        "A collection with the same name already exists. Please choose a different name."
+      );
+      return;
+    }
   };
 
   const handleNewCollectionNameChange = (e) => {
@@ -65,7 +81,7 @@ const Library = ({ books, toggleFavorite, favorites }) => {
           return (
             <div key={i} className="book-wrapper">
               <BookCard
-                image={book.volumeInfo.imageLinks.thumbnail}
+                image={book.volumeInfo.imageLinks?.thumbnail}
                 title={book.volumeInfo.title}
                 author={book.volumeInfo.authors}
                 published={book.volumeInfo.publishedDate}
